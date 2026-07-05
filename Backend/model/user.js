@@ -20,6 +20,31 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-const User = mongoose.model("User", userSchema);
+const noteBookSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }
+})
 
+const noteSchema = new mongoose.Schema({
+    note: {
+        type: String,
+        required: true
+    },
+    noteBook: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "NoteBook"
+    }
+})
+
+const User = mongoose.model("User", userSchema);
+const NoteBook = mongoose.model("NoteBook", noteBookSchema);
+const Note = mongoose.model("Note", noteSchema);
+
+export { NoteBook, Note };
 export default User;

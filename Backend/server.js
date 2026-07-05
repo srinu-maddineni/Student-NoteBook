@@ -2,9 +2,9 @@ import express from "express"
 
 import cors from "cors"
 import conectDb from "./config/mongodb.js"
-
-
-
+import authRoutes from "./router/authRouter.js"
+import noteBookRouter from "./router/noteBookRouter.js"
+import noteRouter from "./router/noteRouter.js"
 
 const app = express()
 app.use(express.json())
@@ -29,9 +29,8 @@ app.use(cors({
 }));
 
 app.use("/auth", authRoutes)
-
-
-
+app.use("/notebook", noteBookRouter)
+app.use("/note", noteRouter)
 
 
 app.listen(5000, () => {
