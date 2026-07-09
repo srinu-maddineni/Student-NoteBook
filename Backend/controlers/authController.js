@@ -1,6 +1,6 @@
 import { OAuth2Client } from "google-auth-library";
 import jwt from "jsonwebtoken";
-import User, { NoteBook, Note } from "../model/user.js";
+import User from "../model/user.js";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -86,12 +86,6 @@ export const userDetails = async (req, res) => {
       });
     }
 
-    // Fetch all notebooks belonging to this user
-    const notebooks = await NoteBook.find({ user: req.user.id });
-
-    // Fetch all notes belonging to the user's notebooks
-    const notebookIds = notebooks.map((nb) => nb._id);
-    const notes = await Note.find({ noteBook: { $in: notebookIds } });
 
     res.status(200).json({
       success: true,
@@ -100,9 +94,8 @@ export const userDetails = async (req, res) => {
         email: user.email,
         name: user.name,
         pic: user.pic,
-      },
-      notebooks,
-      notes,
+      }
+
     });
   } catch (error) {
     console.error("User Details Error:", error);
